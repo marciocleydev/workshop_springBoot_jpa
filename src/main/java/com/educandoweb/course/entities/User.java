@@ -1,13 +1,19 @@
 package com.educandoweb.course.entities;
 
+import jakarta.persistence.*;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.util.Objects;
 
 
+@Entity    // define que a classe vai ser uma entitade do banco de dados
+@Table(name = "tb_user") // muda o nome da tabela de User para "tb_user"
 public class User implements Serializable {
-    @Serial
+    @Serial   // define que o objeto pode ser covertido em conjuntos de bytes e trafegar na rede e ser gravado em arquivos
     private static final long serialVersionUID = 1L;
+    @Id   //define que esse atributo será a chave key da tabela.
+    @GeneratedValue(strategy = GenerationType.IDENTITY)//define que vai ser auto-incrementado
     private Long id;
     private String name;
     private String email;
