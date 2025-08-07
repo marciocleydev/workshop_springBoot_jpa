@@ -32,4 +32,9 @@ public class UserResource {
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user1.getId()).toUri();// formula para criar o caminho que será exibido na url para acesar esse objeto criado.
         return ResponseEntity.created(uri).body(user1);//o metodo created espera um URI que é o caminho até esse objeto que foi inserido.
     }
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        return ResponseEntity.noContent().build(); // nao vai ser enviado conteudo no body
+    }
 }
