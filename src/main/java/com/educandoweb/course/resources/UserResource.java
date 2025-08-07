@@ -26,7 +26,7 @@ public class UserResource {
         User user = service.findById(id);
         return ResponseEntity.ok().body(user); //.ok -> indica que ocorreu tudo bem e no body vai o resultado gerado pela requisiçao
     }
-    @PostMapping
+    @PostMapping     // post -> inseri um novo no banco
     public ResponseEntity<User>insert(@RequestBody User user){ //@requestBody informa que o User vai vim via json e será descerializado e transformado em objeto User
         User user1 = service.insert(user);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user1.getId()).toUri();// formula para criar o caminho que será exibido na url para acesar esse objeto criado.
@@ -36,5 +36,10 @@ public class UserResource {
     public ResponseEntity<Void> delete(@PathVariable Long id){
         service.delete(id);
         return ResponseEntity.noContent().build(); // nao vai ser enviado conteudo no body
+    }
+    @PutMapping(value = "/{id}") //put -> atualiza
+    public ResponseEntity<User> update(@PathVariable Long id,@RequestBody User user){
+        User userUpdated = service.update(id,user);
+        return ResponseEntity.ok().body(userUpdated);
     }
 }

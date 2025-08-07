@@ -25,6 +25,16 @@ public class UserService {
     public void delete(Long id){
         repository.deleteById(id);
     }
+    public User update(Long id, User obj){
+        User entity = repository.getReferenceById(id);//getReferenceById nao busca diretamente no banco de dados , apenas busca um objeto monitorado pelo jpa e deixa disponivel para alteraçoes.(boa prática)
+        updateData(entity,obj);
+        return repository.save(entity);
+    }
+    private void updateData(User user, User obj){
+        user.setName(obj.getName());
+        user.setEmail(obj.getEmail());
+        user.setPhone(obj.getPhone());
+    }
 
 
 }
