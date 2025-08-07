@@ -26,6 +26,8 @@ public class Order implements Serializable {
     @ManyToOne // associacao de muitos pedidos para 1 cliente
     @JoinColumn(name = "Client_id")  // vai ser uma coluna de ligação (foreign-key) e vai ter o nome "Cliente_id"
     private User client;
+    @OneToOne(mappedBy = "order",cascade = CascadeType.ALL)// diz que o id do Order vai ser o mesmo id do Payment
+    private Payment payment;
     @OneToMany(mappedBy = "id.order")
     private Set<OrderItem> items = new HashSet<>();
     public Order(){
@@ -70,6 +72,14 @@ public class Order implements Serializable {
 
     public void setClient(User client) {
         this.client = client;
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public Set<OrderItem> getItems(){
