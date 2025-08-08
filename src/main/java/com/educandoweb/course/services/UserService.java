@@ -4,6 +4,7 @@ import com.educandoweb.course.entities.User;
 import com.educandoweb.course.repositories.UserRepository;
 import com.educandoweb.course.services.exceptions.DataBaseIntegrityException;
 import com.educandoweb.course.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -43,9 +44,14 @@ public class UserService {
     }
 
     public User update(Long id, User obj) {
-        User entity = repository.getReferenceById(id);//getReferenceById nao busca diretamente no banco de dados , apenas busca um objeto monitorado pelo jpa e deixa disponivel para alteraçoes.(boa prática)
-        updateData(entity, obj);
-        return repository.save(entity);
+        try {
+            User entity = repository.getReferenceById(id);//getReferenceById nao busca diretamente no banco de dados , apenas busca um objeto monitorado pelo jpa e deixa disponivel para alteraçoes.(boa prática)
+            updateData(entity, obj);
+            return repository.save(entity);
+        }
+        catch (EntityNotFoundException e){
+             throw  new ResourceNotFoundException(id);
+        }
     }
 
     private void updateData(User user, User obj) {
